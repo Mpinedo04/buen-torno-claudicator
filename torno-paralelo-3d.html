@@ -49,6 +49,8 @@ button{cursor:pointer}
 .btn.danger{background:#5a1d1a;border-color:#8a2b26;color:#ffd7d3}
 .btn.go{background:#164a2c;border-color:#23804a;color:#c9ffde}
 .btn:disabled{opacity:.45;cursor:not-allowed}
+input[type=number]{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:4px 7px;width:88px;font-family:var(--mono);outline:none}
+input[type=number]:focus{border-color:var(--acc2)}
 select{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:5px 8px;color:var(--tx);flex:none}
 .ib{width:30px;height:30px;display:inline-grid;place-items:center;border-radius:9px;border:1px solid var(--line);background:var(--panel2);color:var(--mut);flex:none;font-weight:600}
 .ib:hover{color:var(--tx)} .ib.sm{width:24px;height:24px;border-radius:7px}
@@ -366,7 +368,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
       <h3>Cilindrar (reducir el diámetro)</h3>
       <ol>
         <li>En <b>Pieza</b> elige material; la ficha de la pieza te sugiere las rpm.</li>
-        <li>En <b>Cabezal</b> elige velocidad (solo con el husillo parado) y arranca el motor.</li>
+        <li>En <b>Cabezal</b> escribe las rpm que quieras (o pulsa «Recomendadas»): el variador de frecuencia da cualquier velocidad entre ≈ 11 y 2040 rpm y, si hace falta, cambia de gama mecánica (con el husillo parado). Arranca el motor.</li>
         <li>En <b>Avances</b> elige una casilla de la placa Norton (el avance en mm/rev aparece bajo el paso) y deja el inversor hacia el cabezal.</li>
         <li>En <b>Carro</b> acerca la herramienta con el volante y da profundidad con el dial del carro transversal (cada división = 0,05 mm en el diámetro).</li>
         <li>Embraga el <b>avance automático</b>: el carro avanza, salta la viruta y el Ø baja. Se detiene solo antes de llegar a las garras.</li>
@@ -476,6 +478,17 @@ for (let k = 0; k < 3; k++) for (let b = 0; b < 2; b++) {
 }
 SPEEDS.sort((a, b) => a.rpm - b.rpm);
 const ROMAN = ['I', 'II', 'III'];
+/* Variador de frecuencia (VFD): la velocidad del motor es proporcional a la frecuencia
+   (n = 1420·f/50). Con las 6 gamas mecánicas y f ∈ [5, 100] Hz el husillo cubre de forma
+   continua ≈ 11–2040 rpm. Por debajo de 50 Hz el par es constante; por encima, la potencia. */
+const F_MIN = 5, F_MAX = 100, F_NOM = 50;
+const RPM_MIN = SPEEDS[0].rpm * F_MIN / F_NOM, RPM_MAX = SPEEDS[SPEEDS.length - 1].rpm * F_MAX / F_NOM;
+// Gama mecánica preferida para unas rpm: la que deja la frecuencia más cerca de 50 Hz (más par disponible)
+function gearFor(rpm, prefer) {
+  const ok = SPEEDS.map((s, i) => ({ i, s, f: F_NOM * rpm / s.rpm })).filter(o => o.f >= F_MIN - 1e-6 && o.f <= F_MAX + 1e-6);
+  if (prefer) return ok.find(o => o.s.k === prefer.k && o.s.b === prefer.b) || null;   // en marcha no se puede cambiar de gama
+  return ok.reduce((a, o) => (Math.abs(Math.log(o.f / F_NOM)) < Math.abs(Math.log(a.f / F_NOM)) ? o : a), ok[0]);
+}
 
 // Relación tornillo patrón / husillo para una posición de la caja Norton
 function changeRatio(sys) { const c = MECH.change[sys]; return (c.A / c.B) * (c.C / c.D); }
@@ -1141,7 +1154,7 @@ const PARTS = [
     mnt: ['No forzar la palanca: si no entra, girar ligeramente el plato a mano.', 'Engrasar los ejes de las palancas.'],
     flt: ['Horquillas desgastadas → ruedas mal centradas que rozan.', 'Muelle de retención flojo → la palanca salta en marcha.'],
     ex: [0, 0, 170], label: [[200, 1215, 135], [40, 120, 150]], build: buildSpeedLevers,
-    status: (S, L) => `Palanca A en ${ROMAN[S.k]}, palanca B en ${S.b === 0 ? 'alta' : 'baja'} → ${rpmTxt(SPEEDS.find(s => s.k === S.k && s.b === S.b).rpm)}.` },
+    status: (S, L) => `Palanca A en ${ROMAN[S.k]}, palanca B en ${S.b === 0 ? 'alta' : 'baja'} → ${rpmTxt(SPEEDS.find(s => s.k === S.k && s.b === S.b).rpm)} a 50 Hz; con el variador a ${nf(S.freq, 1)} Hz → ${rpmTxt(SPEEDS.find(s => s.k === S.k && s.b === S.b).rpm * S.freq / F_NOM)}.` },
   { id: 'pulleyBelt', group: 'head', es: 'Poleas y correa', en: 'Pulleys & belt',
     fn: 'Transmiten el giro del motor al eje de entrada del cabezal con una primera reducción, aíslan vibraciones y, ante un atasco, la correa patina y protege la transmisión.',
     how: 'Polea motriz Ø80 mm y conducida Ø140 mm: relación 80/140 = 0,571 → el eje I gira a 811 rpm con el motor a 1420 rpm. La correa trapecial transmite por rozamiento en los flancos de la garganta; sus dientes interiores le dan flexibilidad (los dientes visibles se mueven a la velocidad real de la correa).',
@@ -1152,14 +1165,14 @@ const PARTS = [
     ex: [-160, 0, 0], label: [[DIM.BELT_X, 1075, -230], [-160, 120, -120]], build: buildPulleyBelt,
     status: (S, L) => Math.abs(L.nMotor) < 1 ? 'Parada.' : `Correa a ${nf(L.vBelt, 2)} m/s · polea motriz ${rpmTxt(L.nMotor)} → polea conducida ${rpmTxt(L.nI)}.` },
   { id: 'motor', group: 'head', es: 'Motor eléctrico', en: 'Electric motor', cast: true,
-    fn: 'Aporta la potencia del torno (1,1 kW) a velocidad prácticamente constante.',
-    how: 'Motor asíncrono trifásico de 4 polos: gira a 1420 rpm, algo menos que los 1500 de sincronismo por el deslizamiento. El sentido se invierte permutando dos fases. Va sobre una placa basculante cuyo peso tensa la correa.',
+    fn: 'Aporta la potencia del torno (1,1 kW). Alimentado por un variador de frecuencia, su velocidad se regula de forma continua.',
+    how: 'Motor asíncrono trifásico de 4 polos: a 50 Hz gira a 1420 rpm, algo menos que los 1500 de sincronismo por el deslizamiento. El variador de frecuencia cambia la frecuencia de alimentación (5–100 Hz) y con ella la velocidad (n ≈ 1420·f/50): combinado con las 6 gamas de engranajes, el husillo puede girar a cualquier velocidad entre ≈ 11 y 2040 rpm. Por debajo de 50 Hz mantiene el par (la potencia baja); por encima mantiene la potencia (el par baja). El sentido se invierte permutando dos fases. Va sobre una placa basculante cuyo peso tensa la correa.',
     mat: 'Carcasa de aluminio o fundición con aletas; rotor de jaula de ardilla.',
     rel: ['pulleyBelt', 'controlPanel', 'beltCover'],
     mnt: ['Limpiar las aletas y la tapa del ventilador.', 'Vigilar la temperatura y el ruido de los rodamientos.', 'Revisar el apriete de bornas y la puesta a tierra.'],
     flt: ['Falta de una fase → zumba, no arranca y se calienta.', 'Rodamientos desgastados → ruido y vibración.', 'Disparo del relé térmico por sobrecarga (pasadas excesivas).'],
     ex: [-60, -150, -190], label: [[120, 955, -240], [-120, -40, -220]], build: buildMotor,
-    status: (S, L) => Math.abs(L.nMotor) < 1 ? (S.estop ? 'Parado: seta de emergencia pulsada.' : 'Parado.') : `Gira a <b>${rpmTxt(L.nMotor)}</b>, ${dirTxt(L.nMotor)}. Potencia de corte ≈ ${nf(L.Pc, 0)} W de 1100 W.` },
+    status: (S, L) => Math.abs(L.nMotor) < 1 ? (S.estop ? 'Parado: seta de emergencia pulsada.' : 'Parado.') : `Gira a <b>${rpmTxt(L.nMotor)}</b> (${nf(S.freq, 1)} Hz), ${dirTxt(L.nMotor)}. Potencia de corte ≈ ${nf(L.Pc, 0)} W de ${nf(L.Pmax, 0)} W disponibles.` },
   { id: 'chuck', group: 'head', parent: 'spindle', es: 'Plato de garras', en: '3-jaw chuck', shell: true, cast: true,
     fn: 'Sujeta y centra la pieza para hacerla girar con el husillo.',
     how: 'Plato universal autocentrante de 3 garras, Ø160 mm. Al girar la llave, unos piñones cónicos hacen girar el disco de espiral (≈ 8 mm por vuelta) y las tres garras se mueven a la vez hacia el centro. Se fija a la brida Camlock D1-4 de la nariz. En modo Transparente se ve la espiral interior.',
@@ -2932,7 +2945,7 @@ const CHIPS = {
    ===================================================================================== */
 const LEVER_A = [-0.45, 0, 0.45], LEVER_B = [-0.35, 0.35], REV_LEV = { 1: -0.45, 0: 0, '-1': 0.45 };
 const SIM = {
-  scale: 1, motorOn: false, motorDir: 1, estop: false, wm: 0,
+  scale: 1, motorOn: false, motorDir: 1, estop: false, wm: 0, freq: F_NOM,
   k: SPEEDS[3].k, b: SPEEDS[3].b, kU: 0, bU: 0, leverA: 0, leverB: 0, busy: 0,
   ang: { m: 0, I: 0, II: 0, s: 0, cage: 0, T: 0, t1: 0, t2: 0, BC: 0, C: 0, idl: 0, Sp: 0, R: 0, ls: 0, F: 0, W: 0 },
   beltS: 0,
@@ -3016,6 +3029,22 @@ const ACT = {
     tween(0.75, t => { SIM.kU = lerp(k0, k1, t); SIM.bU = lerp(b0, b1, t); SIM.leverA = lerp(a0, LEVER_A[sp.k], t); SIM.leverB = lerp(l0, LEVER_B[sp.b], t); },
       () => { SIM.k = sp.k; SIM.b = sp.b; SIM.busy = 0; snapHeadstock(); UI.refresh(); });
     SIM.k = sp.k; SIM.b = sp.b; UI.refresh();
+  },
+  // Variador: la frecuencia se puede cambiar en marcha (el motor acelera o frena con rampa)
+  freq(f) { SIM.freq = clamp(f, F_MIN, F_MAX); UI.refresh(); },
+  // Velocidad libre del husillo: si cabe en la gama actual sólo cambia la frecuencia;
+  // si no, elige la gama adecuada (eso sí exige parar, como en la máquina real).
+  rpm(n) {
+    n = clamp(+n || 0, RPM_MIN, RPM_MAX);
+    const cur = { k: SIM.k, b: SIM.b };
+    const g = gearFor(n, (spinning() || SIM.motorOn) ? cur : null);
+    if (!g) {
+      const lim = SPEEDS.find(s => s.k === SIM.k && s.b === SIM.b).rpm;
+      return toast('Fuera de la gama actual', `Con las palancas en esta posición el variador sólo llega de ${nf(lim * F_MIN / F_NOM, 0)} a ${nf(lim * F_MAX / F_NOM, 0)} rpm. Para el husillo para que pueda cambiar de gama.`, 'lock');
+    }
+    if (g.s.k !== SIM.k || g.s.b !== SIM.b) ACT.speed(g.i);
+    SIM.freq = clamp(g.f, F_MIN, F_MAX);
+    UI.refresh();
   },
   norton(cone, range) {
     if (cone === SIM.cone && range === SIM.range) return;
@@ -3194,7 +3223,7 @@ function simStep(dtReal) {
   const dt = Math.min(dtReal, 0.05) * SIM.scale;
   // 1) Motor: arranque y frenado con rampa (inercia de la transmisión)
   const wFull = MECH.motorRpm * TAU / 60;
-  const target = SIM.motorOn ? SIM.motorDir * wFull : 0;
+  const target = SIM.motorOn ? SIM.motorDir * wFull * SIM.freq / F_NOM : 0;   // el variador fija la frecuencia
   const acc = SIM.motorOn ? wFull / 0.8 : wFull / (SIM.estop ? 0.35 : 1.5);
   // 2) Sub-pasos: como máximo ~1/2 vuelta de husillo y 1,5 mm de carro por sub-paso
   const ws0 = Math.abs(SIM.wm * BELT_RATIO * (S1.cl[SIM.k] / S1.fx[SIM.k]) * (S2.cl[SIM.b] / S2.fx[SIM.b]));
@@ -3417,8 +3446,10 @@ function updateLive(res) {
     const kc = { C45: 2000, INOX: 2400, AL: 800, CUZN: 1300, GG: 1100, POM: 250 }[SIM.work.mat];
     LIVE.Pc = LIVE.Q * kc / 60;       // P = kc · Q   (Q en cm³/min → mm³/s · N/mm² = W)
   }
-  const P = 1100 * 0.85;
-  LIVE.torque = Math.abs(LIVE.n) > 1 ? P * 60 / (TAU * Math.abs(LIVE.n)) : P * 60 / (TAU * SPEEDS.find(s => s.k === SIM.k && s.b === SIM.b).rpm);
+  // Variador: potencia disponible proporcional a f por debajo de 50 Hz (par constante) y constante por encima
+  LIVE.Pmax = 1100 * Math.min(1, SIM.freq / F_NOM);
+  LIVE.nSet = SPEEDS.find(s => s.k === SIM.k && s.b === SIM.b).rpm * SIM.freq / F_NOM;
+  LIVE.torque = LIVE.Pmax * 0.85 * 60 / (TAU * LIVE.nSet);
   if (WP.thread && WP.thread.rMin < Infinity) { LIVE.threadPitch = WP.thread.p; LIVE.threadDepth = Math.max(0, WP.thread.rTop - WP.thread.rMin); }
   else { LIVE.threadDepth = 0; LIVE.threadPitch = 0; }
   LIVE.dialCar = dialAngle('car').read; LIVE.dialCross = dialAngle('cross').read; LIVE.dialComp = dialAngle('comp').read; LIVE.dialQuill = dialAngle('quill').read;
@@ -3430,7 +3461,7 @@ function cutAdvice() {
   const wm = WORK_MATS[SIM.work.mat];
   const toast = toastSlow;     // los consejos de corte se repiten como mucho cada 14 s
   if (LIVE.ap > wm.apMax) toast('Pasada demasiado profunda', `ap = ${nf(LIVE.ap, 2)} mm en ${wm.es}: riesgo de vibración, sobrecarga y rotura de la plaquita (máx. ≈ ${wm.apMax} mm).`, 'warn', 'ap');
-  if (LIVE.Pc > 1100) toast('Sobrecarga del motor', `La potencia de corte (${nf(LIVE.Pc, 0)} W) supera la del motor (1,1 kW): reduce ap o el avance.`, 'warn', 'pc');
+  if (LIVE.Pc > LIVE.Pmax) toast('Sobrecarga del motor', `La potencia de corte (${nf(LIVE.Pc, 0)} W) supera la disponible (${nf(LIVE.Pmax, 0)} W a ${nf(SIM.freq, 0)} Hz): reduce ap o el avance${SIM.freq < F_NOM ? ', o usa una gama más lenta con el variador más cerca de 50 Hz' : ''}.`, 'warn', 'pc');
   const ratio = LIVE.Vc / wm.vc;
   if (!SIM.halfNut && ratio > 1.6) toast('Velocidad de corte alta', `Vc = ${nf(LIVE.Vc, 0)} m/min frente a ≈ ${wm.vc} recomendados: desgaste rápido del filo.`, 'warn', 'vc');
   if (!SIM.halfNut && ratio < 0.25 && SIM.work.mat !== 'POM') toast('Velocidad de corte baja', `Vc = ${nf(LIVE.Vc, 0)} m/min: aparece filo de aportación y mal acabado. Sube las rpm.`, 'info', 'vclow');
@@ -3449,7 +3480,7 @@ const DEMO = {
   turning() {
     if (!this.check()) return;
     if (SIM.halfNut) ACT.halfNut(false); if (SIM.clutch) ACT.clutch(false);
-    const s = SPEEDS.findIndex(x => Math.abs(x.rpm - 423) < 2); ACT.speed(s);
+    const s = SPEEDS.findIndex(x => Math.abs(x.rpm - 423) < 2); ACT.speed(s); SIM.freq = F_NOM;
     if (SIM.sys !== 'mm') ACT.system('mm');
     ACT.norton(0, 'B'); ACT.reverse(1);
     SIM.toolIdx = 0; SIM.postAng = 0; SIM.compA = 0; SIM.comp = 0;
@@ -3462,14 +3493,14 @@ const DEMO = {
   threading() {
     if (!this.check()) return;
     if (SIM.halfNut) ACT.halfNut(false); if (SIM.clutch) ACT.clutch(false);
-    ACT.speed(0);
+    ACT.rpm(80);                       // velocidad libre gracias al variador (gama baja I a ≈ 38 Hz)
     if (SIM.sys !== 'mm') ACT.system('mm');
     ACT.norton(2, 'B'); ACT.reverse(1);
     SIM.toolIdx = 1; SIM.postAng = -PI / 2; SIM.compA = 0; SIM.comp = 0;
     const r = WP.maxRAt(workEndX() - 1) || WP.R0;
     placeTool(workEndX() + 6, r - 0.25);
     ACT.zero('cross');
-    toast('Listo para roscar paso 1,5 mm', 'Velocidad mínima (106 rpm), herramienta de 60°, 0,25 mm de profundidad. Arranca (Espacio) y cierra la tuerca partida («T»). Al final: retira el transversal, abre la tuerca, vuelve y profundiza otra pasada.', 'ok');
+    toast('Listo para roscar paso 1,5 mm', `Husillo a 80 rpm (variador a ${nf(SIM.freq, 1)} Hz; el paso no depende de las rpm porque el patrón va engranado al husillo), herramienta de 60°,` + ' 0,25 mm de profundidad. Arranca (Espacio) y cierra la tuerca partida («T»). Al final: retira el transversal, abre la tuerca, vuelve y profundiza otra pasada.', 'ok');
     UI.refresh();
   },
   center() {
@@ -3580,7 +3611,7 @@ const UI = {
         <span>Volteo sobre bancada</span><span>Ø300 mm (altura de puntos 150 mm)</span>
         <span>Distancia entre puntos</span><span>1000 mm</span>
         <span>Paso de barra / cono</span><span>Ø38 mm · CM5 (husillo), CM3 (caña)</span>
-        <span>Velocidades</span><span>${sp} rpm</span>
+        <span>Velocidades</span><span>continua ${nf(RPM_MIN, 0)} – ${nf(RPM_MAX, 0)} rpm (variador 5–100 Hz + 6 gamas: ${sp} rpm a 50 Hz)</span>
         <span>Motor</span><span>1,1 kW · 1420 rpm · correa 80/140</span>
         <span>Roscas métricas</span><span>0,5 – 3 mm (14 posiciones)</span>
         <span>Roscas en pulgadas</span><span>8 – 48 hilos/" (rueda de 127 Z)</span>
@@ -3629,7 +3660,11 @@ const UI = {
     ph.innerHTML = `
       <div class="box"><h4>Motor</h4><div class="row"><button class="motorBtn" id="bMotor">MARCHA</button><button class="estop" id="bEstop" title="Seta de emergencia">PARO<br>EMERG.</button></div>
         <div class="seg small" id="segDir"><button data-dir="1">Directo</button><button data-dir="-1">Inverso</button></div></div>
-      <div class="box"><h4>Velocidad del husillo (palancas A · B)</h4><div class="spd" id="spd">${SPEEDS.map((s, i) => `<button data-sp="${i}"><b>${Math.round(s.rpm)}</b><small>A ${ROMAN[s.k]} · B ${s.b ? 'baja' : 'alta'}</small></button>`).join('')}</div><span class="hint">Solo con el husillo parado · teclas 1–6</span></div>
+      <div class="box"><h4>Velocidad libre del husillo (variador)</h4>
+        <div class="row"><input type="number" id="inRpm" min="${Math.ceil(RPM_MIN)}" max="${Math.floor(RPM_MAX)}" step="1" title="Cualquier valor entre ${Math.ceil(RPM_MIN)} y ${Math.floor(RPM_MAX)} rpm"><span class="hint">rpm</span><button class="btn pri" id="bRpm">Aplicar</button><button class="btn" id="bRec" title="Usa las rpm recomendadas para el material, el Ø y la operación">Recomendadas</button></div>
+        <div class="fld">Frecuencia del motor <output id="oHz"></output><input type="range" id="rHz" min="${F_MIN}" max="${F_MAX}" step="0.5"></div>
+        <span class="hint" id="hzHint"></span></div>
+      <div class="box"><h4>Gamas mecánicas (palancas A · B, rpm a 50 Hz)</h4><div class="spd" id="spd">${SPEEDS.map((s, i) => `<button data-sp="${i}"><b>${Math.round(s.rpm)}</b><small>A ${ROMAN[s.k]} · B ${s.b ? 'baja' : 'alta'}</small></button>`).join('')}</div><span class="hint">Cambio de gama solo parado · teclas 1–6</span></div>
       <div class="box"><h4>Escala de tiempo</h4><select id="selTime">${TIME_SCALES.map(t => `<option value="${t}">×${nf(t, t < 1 ? 2 : 0)}</option>`).join('')}</select>
         <div class="row"><button class="btn" data-ts="0.1">Cámara lenta</button><button class="btn" data-ts="1">Real</button><button class="btn" data-ts="20">Rápido</button></div><span class="hint">Lento para ver engranar; rápido para mecanizar.</span></div>
       <div class="box"><h4>Protector del plato</h4><label class="swr"><input type="checkbox" id="chkGuard"><i></i>Bajado (cadena de seguridad)</label><label class="swr"><input type="checkbox" id="chkGuardVis"><i></i>Mostrar en la vista</label></div>`;
@@ -3674,6 +3709,11 @@ const UI = {
     $('#bEstop').onclick = () => ACT.estop();
     $('#segDir').onclick = e => { const b = e.target.closest('[data-dir]'); if (b) ACT.dir(+b.dataset.dir); };
     $('#spd').onclick = e => { const b = e.target.closest('[data-sp]'); if (b) ACT.speed(+b.dataset.sp); };
+    const applyRpm = () => { const v = +$('#inRpm').value; if (v > 0) ACT.rpm(v); };
+    $('#bRpm').onclick = applyRpm;
+    $('#inRpm').addEventListener('keydown', e => { if (e.key === 'Enter') applyRpm(); });
+    $('#bRec').onclick = () => { $('#inRpm').value = Math.round(clamp(LIVE.nRec, RPM_MIN, RPM_MAX)); applyRpm(); };
+    $('#rHz').oninput = e => ACT.freq(+e.target.value);
     $('#selTime').onchange = e => this.setScale(+e.target.value);
     $$('[data-ts]', ph).forEach(b => (b.onclick = () => this.setScale(+b.dataset.ts)));
     $('#chkGuard').onchange = e => ACT.guard(e.target.checked);
@@ -3728,6 +3768,10 @@ const UI = {
     $$('#segDir button').forEach(b => b.classList.toggle('on', +b.dataset.dir === SIM.motorDir));
     $$('#spd button').forEach((b, i) => b.classList.toggle('on', SPEEDS[i].k === SIM.k && SPEEDS[i].b === SIM.b));
     $('#selTime').value = String(SIM.scale);
+    const g50 = SPEEDS.find(s => s.k === SIM.k && s.b === SIM.b).rpm, nSet = g50 * SIM.freq / F_NOM;
+    $('#rHz').value = SIM.freq; $('#oHz').textContent = nf(SIM.freq, 1) + ' Hz → ' + nf(nSet, 0) + ' rpm';
+    if (document.activeElement !== $('#inRpm')) $('#inRpm').value = Math.round(nSet);
+    $('#hzHint').textContent = `Gama A ${ROMAN[SIM.k]} · B ${SIM.b ? 'baja' : 'alta'}: ${nf(g50 * F_MIN / F_NOM, 0)}–${nf(g50 * F_MAX / F_NOM, 0)} rpm. La frecuencia se cambia en marcha; si las rpm no caben en la gama, se cambia de gama (con el husillo parado). Par constante hasta 50 Hz, potencia constante por encima.`;
     $('#chkGuard').checked = SIM.guardClosed; $('#chkGuardVis').checked = NODE.chuckGuard.visible;
     $$('#segSys button').forEach(b => b.classList.toggle('on', b.dataset.sys === SIM.sys));
     $$('#segRev button').forEach(b => b.classList.toggle('on', +b.dataset.rev === SIM.rev));
@@ -3762,9 +3806,8 @@ const UI = {
     const de = $('#d_st'); if (de.innerHTML !== st) de.innerHTML = st;
     for (const k of this.knobs) k.update();
     const wm = WORK_MATS[SIM.work.mat];
-    const nRec = 1000 * wm.vc / (PI * SIM.work.D), nMax = SPEEDS[SPEEDS.length - 1].rpm;
-    const best = SPEEDS.reduce((a, s) => (Math.abs(s.rpm - nRec) < Math.abs(a.rpm - nRec) ? s : a));
-    const ci = `${wm.es}, Ø${SIM.work.D}. Vc recomendada ≈ ${wm.vc} m/min (metal duro) → <b>${nf(nRec, 0)} rpm</b>${nRec > nMax ? ` (supera la máxima del torno: usa ${nf(nMax, 0)} rpm)` : ` → la más cercana es ${nf(best.rpm, 0)} rpm`}; para roscar ≈ 1/3. Ø mínimo actual: ${nf(LIVE.Dmin, 2)} mm. ${LIVE.cutting ? `Cortando con ap = ${nf(LIVE.ap, 2)} mm, Q = ${nf(LIVE.Q, 1)} cm³/min, P ≈ ${nf(LIVE.Pc, 0)} W.` : ''}`;
+    const nRec = 1000 * wm.vc / (PI * SIM.work.D);
+    const ci = `${wm.es}, Ø${SIM.work.D}. Vc recomendada ≈ ${wm.vc} m/min (metal duro) → <b>${nf(nRec, 0)} rpm</b>${nRec > RPM_MAX ? ` (supera la máxima del torno: ${nf(RPM_MAX, 0)} rpm)` : ''}; para roscar ≈ 1/3 (${nf(nRec * 0.3, 0)} rpm). Con el variador puedes fijar exactamente esas rpm (pestaña Cabezal → «Recomendadas»). Ø mínimo actual: ${nf(LIVE.Dmin, 2)} mm. ${LIVE.cutting ? `Cortando con ap = ${nf(LIVE.ap, 2)} mm, Q = ${nf(LIVE.Q, 1)} cm³/min, P ≈ ${nf(LIVE.Pc, 0)} W.` : ''}`;
     const ce = $('#cutInfo'); if (ce.innerHTML !== ci) ce.innerHTML = ci;
     this.updateLiveBox();
   },

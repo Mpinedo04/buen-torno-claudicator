@@ -35,6 +35,17 @@ API de depuración en la consola del navegador: `window.LATHE` (SIM, LIVE, ACT, 
   - Aviso cuando las rpm recomendadas superan la máxima del torno.
 - Eliminado un cierre `})();` duplicado.
 
+## Cambio posterior: velocidad libre del husillo (variador de frecuencia)
+- El motor tiene un variador de frecuencia de 5 a 100 Hz. Con las 6 gamas, el husillo gira a cualquier velocidad entre ≈ 11 y 2040 rpm.
+- En la pestaña Cabezal se escriben las rpm, se mueve el deslizador de Hz o se pulsa «Recomendadas».
+- La gama se elige sola: la que deja la frecuencia más cerca de 50 Hz. Solo con el husillo parado; en marcha, solo se varía la frecuencia.
+- La potencia disponible es proporcional a f hasta 50 Hz y constante por encima. Los avisos de sobrecarga la usan.
+- La demo de roscado va a 80 rpm (≈ 37,8 Hz).
+- Verificado:
+  - 137 y 150 rpm exactas; 1750 rpm eligiendo la gama II alta.
+  - Roscado a 80 rpm con paso exacto de 1,5000 mm/rev.
+  - Si en marcha se piden rpm fuera de la gama, sale un aviso y la frecuencia no cambia.
+
 ## Donde se quedó (interrumpido)
 Prueba por JS de atajos de teclado (E, X, W, C, G, L, 1–6, H/Esc, flechas, Espacio) y de indexar la torreta. La llamada se cortó y no se sabe el resultado; **hay que repetirla**.
 
