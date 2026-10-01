@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/", "destination": "/torno-paralelo-3d.html" }
+  ]
+}
