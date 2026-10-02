@@ -216,6 +216,57 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
 .modal .cols{display:grid;grid-template-columns:1fr 1fr;gap:4px 18px}
 .modal .cols div{display:flex;justify-content:space-between;gap:10px;border-bottom:1px dashed #26303a;padding:3px 0}
 .modal ol{margin:0;padding-left:20px;color:#c9d2dc}.modal ol li{margin:3px 0}
+
+/* ---------- Botón manual en barra superior ---------- */
+#btnManual{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#1f8fd1,#106699);border:1px solid #38a8e8;color:#fff;font-weight:600;padding:5px 12px;border-radius:9px;box-shadow:0 2px 10px rgba(31,143,209,.3);cursor:pointer;transition:all .18s ease;white-space:nowrap;flex:none}
+#btnManual:hover{background:linear-gradient(135deg,#2aa3ea,#1877b1);border-color:#5ec3ff;box-shadow:0 3px 14px rgba(76,195,255,.45);transform:translateY(-1px)}
+#btnManual:active{transform:translateY(0)}
+#btnManual .mIcon{font-size:14px;line-height:1}
+
+/* ---------- Modal de Manual de Instrucciones ---------- */
+.manualModalCard{background:#11161d;border:1px solid var(--line2);border-radius:14px;max-width:960px;width:95vw;max-height:88vh;padding:0;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 64px rgba(0,0,0,.65)}
+.manualHeader{padding:12px 16px 10px;background:linear-gradient(180deg,#171f2a,#121822);border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:9px;flex:none}
+.manualTopRow{display:flex;align-items:center;gap:12px}
+.manualTitleBox{display:flex;flex-direction:column;line-height:1.2}
+.manualTitleBox h2{margin:0;font-size:16px;font-weight:700;color:#fff;display:flex;align-items:center;gap:7px}
+.manualTitleBox small{color:var(--mut);font-size:11px}
+.manualSearchBox{position:relative;flex:1;max-width:320px;margin-left:auto}
+.manualSearchBox input{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:6px 10px 6px 28px;font-size:12px;color:var(--tx);outline:none}
+.manualSearchBox input:focus{border-color:var(--acc2)}
+.manualSearchBox .sIcon{position:absolute;left:9px;top:50%;transform:translateY(-50%);color:var(--dim);font-size:11px;pointer-events:none}
+.manualTabsBar{display:flex;gap:5px;overflow-x:auto;scrollbar-width:none;padding:1px 0 3px}
+.manualTabsBar::-webkit-scrollbar{display:none}
+.mTabBtn{background:var(--panel2);border:1px solid var(--line);border-radius:7px;padding:4px 9px;font-size:11.5px;color:var(--mut);white-space:nowrap;cursor:pointer;transition:all .15s;flex:none}
+.mTabBtn:hover{color:var(--tx);border-color:var(--line2)}
+.mTabBtn.active{background:var(--accbg);color:var(--acc);border-color:rgba(76,195,255,.45);font-weight:600}
+.manualBody{padding:18px 22px 30px;overflow-y:auto;flex:1;color:#c9d5e2;font-size:13px;line-height:1.55}
+.mSection{margin-bottom:30px;padding-bottom:22px;border-bottom:1px solid #1e2632}
+.mSection:last-child{border-bottom:0;margin-bottom:10px}
+.mSecH{display:flex;align-items:center;gap:9px;margin:0 0 12px}
+.mSecNum{background:var(--accbg);color:var(--acc);border:1px solid rgba(76,195,255,.4);font-family:var(--mono);font-size:11px;font-weight:700;padding:2px 7px;border-radius:6px;flex:none}
+.mSecH h3{margin:0;font-size:15px;font-weight:600;color:#fff;letter-spacing:.2px}
+.mCallout{background:rgba(31,143,209,.08);border-left:3px solid var(--acc2);border-radius:0 8px 8px 0;padding:10px 14px;margin:12px 0;font-size:12.5px}
+.mCallout.warn{background:rgba(255,176,32,.08);border-left-color:var(--warn)}
+.mCallout.bad{background:rgba(255,91,79,.08);border-left-color:var(--bad)}
+.mCallout.ok{background:rgba(61,220,132,.08);border-left-color:var(--ok)}
+.mCallout b{display:block;margin-bottom:3px;font-size:11.5px;text-transform:uppercase;letter-spacing:.5px;color:var(--acc)}
+.mCallout.warn b{color:var(--warn)}
+.mCallout.bad b{color:var(--bad)}
+.mCallout.ok b{color:var(--ok)}
+.mFormula{background:#090e13;border:1px solid #222d39;border-radius:8px;padding:8px 14px;margin:10px 0;font-family:var(--mono);font-size:12px;color:#7fe0ff;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.mFormula span.desc{font-family:var(--font);font-size:11.5px;color:var(--mut)}
+.mSteps{counter-reset:mstep;margin:10px 0;padding:0;list-style:none}
+.mSteps li{position:relative;padding-left:34px;margin-bottom:12px}
+.mSteps li:before{counter-increment:mstep;content:counter(mstep);position:absolute;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--panel3);border:1px solid var(--line2);color:var(--acc);font-size:11px;font-weight:700;display:grid;place-items:center;font-family:var(--mono)}
+.mGrid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.mCardBox{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:10px 12px;font-size:12.5px}
+.mCardBox h4{margin:0 0 6px;font-size:12px;color:var(--tx);display:flex;align-items:center;gap:6px}
+.mDemoRow{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.mTable{width:100%;border-collapse:collapse;margin:10px 0;font-size:12px}
+.mTable th{background:#171f28;color:var(--mut);text-align:left;padding:6px 10px;border:1px solid var(--line);font-size:11px;text-transform:uppercase;letter-spacing:.5px}
+.mTable td{padding:6px 10px;border:1px solid var(--line);background:#0f141a}
+.mBadge{display:inline-flex;align-items:center;gap:4px;background:var(--panel2);border:1px solid var(--line);border-radius:6px;padding:1px 7px;font-size:11px;color:var(--mut)}
+
 #loading{position:absolute;inset:0;z-index:80;display:grid;place-items:center;background:var(--bg0);transition:opacity .5s}
 #loading.hide{opacity:0;pointer-events:none}
 #loading .lc{display:flex;flex-direction:column;align-items:center;gap:14px;max-width:460px;text-align:center;padding:20px}
@@ -249,6 +300,15 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
   #slowBadge{right:10px}
   .dr{min-width:70px;flex-basis:70px;padding:2px 6px}
   .dr b{font-size:14px}
+  #btnManual .mLabel{font-size:11.5px}
+  .mGrid2{grid-template-columns:1fr}
+  .manualSearchBox{max-width:160px}
+  .manualBody{padding:14px 16px 24px}
+}
+@media (max-width:540px){
+  #btnManual .mLabel{display:none}
+  #btnManual{padding:5px 8px}
+  .manualTitleBox small{display:none}
 }
 </style>
 </head>
@@ -287,7 +347,9 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
       <option value="tail">Contrapunto</option>
     </select>
     <span class="spacer"></span>
-    <button class="ib" id="btnHelp" title="Ayuda y atajos (H)" aria-label="Ayuda">?</button>
+    <button class="btn pri" id="btnManual" title="Manual de instrucciones y guía de estudio (H)" aria-label="Manual de instrucciones">
+      <span class="mIcon">📖</span><span class="mLabel">Manual de instrucciones</span>
+    </button>
   </header>
 
   <div id="sectionBar" class="panel" hidden>
@@ -338,48 +400,374 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
   <div id="perf" hidden></div>
 
   <div id="help" class="modal" hidden>
-    <div class="card scroll">
-      <div style="display:flex;align-items:center;gap:10px"><h2>Cómo usar el torno 3D</h2><span class="spacer"></span><button class="ib" data-close="help" aria-label="Cerrar">&times;</button></div>
-      <p class="hint">Torno paralelo de banco con volteo Ø300 mm y 1000 mm entre puntos. Todo el modelo es procedural y las transmisiones se calculan a partir del número de dientes reales de cada rueda.</p>
-      <h3>Ratón y táctil</h3>
-      <div class="cols">
-        <div><span>Orbitar</span><span>Botón izq. / 1 dedo</span></div>
-        <div><span>Desplazar (pan)</span><span>Botón dcho. / Mayús+izq. / 2 dedos</span></div>
-        <div><span>Zoom</span><span>Rueda / pellizco</span></div>
-        <div><span>Seleccionar pieza</span><span>Clic / toque</span></div>
+    <div class="manualModalCard">
+      <div class="manualHeader">
+        <div class="manualTopRow">
+          <div class="manualTitleBox">
+            <h2><span>📖</span> Manual de Instrucciones del Torno Paralelo 3D</h2>
+            <small>Guía didáctica y técnica de mecanizado para estudiantes y operadores · Torno 300 × 1000</small>
+          </div>
+          <div class="manualSearchBox">
+            <span class="sIcon">🔍</span>
+            <input id="mSearch" type="search" placeholder="Buscar en el manual (ej. roscar, cilindrar, Norton, nonio, rpm)..." autocomplete="off">
+          </div>
+          <button class="ib" data-close="help" aria-label="Cerrar manual">&times;</button>
+        </div>
+        <nav class="manualTabsBar" id="mTabs" role="tablist">
+          <button class="mTabBtn active" data-sec="all">📖 Ver todo</button>
+          <button class="mTabBtn" data-sec="sec-intro">1. Introducción</button>
+          <button class="mTabBtn" data-sec="sec-nav">2. Vistas y 3D</button>
+          <button class="mTabBtn" data-sec="sec-parts">3. Piezas y Fichas</button>
+          <button class="mTabBtn" data-sec="sec-head">4. Cabezal y RPM</button>
+          <button class="mTabBtn" data-sec="sec-norton">5. Caja Norton</button>
+          <button class="mTabBtn" data-sec="sec-carr">6. Carros y Volantes</button>
+          <button class="mTabBtn" data-sec="sec-tail">7. Contrapunto</button>
+          <button class="mTabBtn" data-sec="sec-mach">8. Taller y Práctica</button>
+          <button class="mTabBtn" data-sec="sec-safety">9. Seguridad</button>
+          <button class="mTabBtn" data-sec="sec-keys">10. Atajos</button>
+        </nav>
       </div>
-      <h3>Atajos de teclado</h3>
-      <div class="cols">
-        <div><span>Motor marcha/paro</span><span class="kbd">Espacio</span></div>
-        <div><span>Explosionar</span><span class="kbd">E</span></div>
-        <div><span>Transparencia</span><span class="kbd">X</span></div>
-        <div><span>Alambre</span><span class="kbd">W</span></div>
-        <div><span>Corte</span><span class="kbd">C</span></div>
-        <div><span>Etiquetas</span><span class="kbd">L</span></div>
-        <div><span>Encuadrar selección</span><span class="kbd">F</span></div>
-        <div><span>Deseleccionar / cerrar</span><span class="kbd">Esc</span></div>
-        <div><span>Velocidades del husillo</span><span class="kbd">1 … 6</span></div>
-        <div><span>Volante del carro</span><span class="kbd">← →</span></div>
-        <div><span>Carro transversal</span><span class="kbd">↑ ↓</span></div>
-        <div><span>Carro orientable</span><span class="kbd">[ ]</span></div>
-        <div><span>Protector del plato</span><span class="kbd">G</span></div>
-        <div><span>Rendimiento (FPS)</span><span class="kbd">º / `</span></div>
+
+      <div class="manualBody scroll" id="mBody">
+        <!-- SECCIÓN 1: INTRODUCCIÓN Y ANATOMÍA -->
+        <section class="mSection" id="sec-intro">
+          <div class="mSecH"><span class="mSecNum">01</span><h3>Introducción y Anatomía del Torno Paralelo</h3></div>
+          <p>Bienvenido al simulador interactivo de <b>Torno Paralelo de banco 300 × 1000</b>. Esta aplicación está concebida como una herramienta didáctica integral para asimilar la cinemática, los enclavamientos mecánicos y los procedimientos reales de mecanizado por arranque de viruta.</p>
+          
+          <div class="mGrid2">
+            <div class="mCardBox">
+              <h4>🎯 ¿Qué es un torno paralelo?</h4>
+              <p>Es la máquina-herramienta fundamental del mecanizado. Hace girar la pieza fijada al husillo principal mientras una herramienta mono-cortante avanza de forma longitudinal o transversal, arrancando viruta para producir formas de revolución: cilindros exteriores e interiores, conos, caras planas (refrentado) y roscas métricas o en pulgadas.</p>
+            </div>
+            <div class="mCardBox">
+              <h4>⚙️ Gemelo digital procedural</h4>
+              <p>Cada componente 3D (engranajes con sus dientes reales <span class="kbd">Z</span>, husillos, tuercas partidas y diales) está programado con cinemática real. Las velocidades de corte, avances y volúmenes arrancados concuerdan con la física del taller industrial.</p>
+            </div>
+          </div>
+
+          <div class="mCallout">
+            <b>📍 Estructura General de la Interfaz</b>
+            <ul>
+              <li><b>Barra Superior:</b> Modos visuales (Sólido, Rayos X, Alambre, Sección de corte), Despiece explosionado, Etiquetas 3D, Selector de cámaras y este Manual de Instrucciones.</li>
+              <li><b>Panel Izquierdo («Piezas»):</b> Árbol completo con más de 70 piezas organizadas por subsistemas, buscador bilingüe e interruptores de visibilidad (ojo).</li>
+              <li><b>Panel Derecho («Ficha»):</b> Especificación técnica del componente activo, material industrial, función y telemetría cinemática en vivo.</li>
+              <li><b>Pantalla Digital DRO (abajo):</b> Visualizador de cotas en tiempo real: <span class="kbd">Husillo rpm</span>, <span class="kbd">Vc (m/min)</span>, <span class="kbd">Avance f (mm/rev)</span>, <span class="kbd">Z punta (mm)</span> y <span class="kbd">X / Ø (mm)</span>.</li>
+              <li><b>Dock Inferior de Mandos:</b> 5 pestañas interactivas: Cabezal, Avances (Norton), Carro (volantes), Contrapunto y Pieza en bruto.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 2: NAVEGACIÓN Y VISTAS 3D -->
+        <section class="mSection" id="sec-nav">
+          <div class="mSecH"><span class="mSecNum">02</span><h3>Navegación 3D, Cámaras y Modos de Inspección Interna</h3></div>
+          <p>Para estudiar cómo funciona el torno no basta con verlo por fuera; la aplicación incluye modos avanzados para inspeccionar trenes de engranajes y mecanismos internos en pleno movimiento.</p>
+
+          <div class="mGrid2">
+            <div class="mCardBox">
+              <h4>🖱️ Control de Cámara (Ratón y Táctil)</h4>
+              <table class="mTable">
+                <tr><th>Acción</th><th>Control</th></tr>
+                <tr><td>Orbitar / Girar</td><td>Clic izquierdo + arrastrar (o 1 dedo)</td></tr>
+                <tr><td>Desplazar (Pan)</td><td>Clic derecho + arrastrar / Mayús+izq (o 2 dedos)</td></tr>
+                <tr><td>Zoom</td><td>Rueda del ratón / Pellizco en pantalla</td></tr>
+                <tr><td>Encuadrar pieza</td><td>Tecla <span class="kbd">F</span> (centra sobre la selección)</td></tr>
+                <tr><td>Deseleccionar</td><td>Tecla <span class="kbd">Esc</span> (cierra paneles y selección)</td></tr>
+              </table>
+            </div>
+
+            <div class="mCardBox">
+              <h4>👁️ Modos de Vista Especiales</h4>
+              <p><b>Sólido:</b> Acabado realista de taller (fundición perlada, aceros rectificados y bronces).</p>
+              <p><b>Transparente / Rayos X (<span class="kbd">X</span>):</b> Vuelve translúcidas las carcasas del cabezal, la caja Norton y el delantal para ver girar los piñones interiores.</p>
+              <p><b>Alambre (<span class="kbd">W</span>):</b> Estructura de malla poligonal.</p>
+              <p><b>Etiquetas 3D (<span class="kbd">L</span>):</b> Activa directrices sobre piezas clave. Haz clic en una etiqueta para volar a ella y abrir su ficha.</p>
+            </div>
+          </div>
+
+          <div class="mCallout ok">
+            <b>🔪 Plano de Corte Dinámico (<span class="kbd">C</span>)</b>
+            Permite rebanar el torno con una cuchilla geométrica para ver la sección interna. Puedes seleccionar corte <b>Frontal</b> (eje Z), <b>Transversal</b> (eje X) u <b>Horizontal</b> (eje Y), regular la posición del plano con el deslizador e invertir el lado visible con el botón «Invertir».
+          </div>
+
+          <div class="mCallout">
+            <b>💥 Despiece Explosionado (<span class="kbd">E</span>)</b>
+            Mueve el deslizador «Explosión» de 0% a 100% para separar suavemente los componentes del torno en el espacio y ver con precisión cómo se ensambla cada subconjunto.
+          </div>
+        </section>
+
+        <!-- SECCIÓN 3: PIEZAS Y FICHAS TÉCNICAS -->
+        <section class="mSection" id="sec-parts">
+          <div class="mSecH"><span class="mSecNum">03</span><h3>Explorador de Piezas y Fichas Técnicas Educativas</h3></div>
+          <p>La máquina se compone de más de 70 piezas independientes rigurosamente modeladas. Puedes seleccionarlas directamente haciendo clic sobre el modelo 3D o a través del panel lateral izquierdo.</p>
+
+          <div class="mGrid2">
+            <div class="mCardBox">
+              <h4>📋 Panel Izquierdo («Piezas»)</h4>
+              <ul>
+                <li><b>Árbol estructurado por grupos:</b> Bancada, Cabezal fijo, Caja Norton, Carro y delantal, Carro transversal y orientable, Torreta, Contrapunto y Transmisiones.</li>
+                <li><b>Buscador bilingüe:</b> Escribe en español o inglés (ej. <i>«chuck», «delantal», «husillo», «lead screw», «cremallera»</i>) para encontrar la pieza al instante.</li>
+                <li><b>Ocultar / Mostrar (ojo):</b> Pulsa el icono del ojo junto a cualquier pieza para hacerla invisible y examinar lo que hay detrás.</li>
+              </ul>
+            </div>
+
+            <div class="mCardBox">
+              <h4>📄 Panel Derecho («Ficha Técnica»)</h4>
+              <ul>
+                <li><b>Nombre bilingüe y categoría:</b> Conoce la terminología industrial normalizada.</li>
+                <li><b>Función mecánica:</b> Explicación didáctica de su utilidad real en máquinas-herramienta.</li>
+                <li><b>Material:</b> Fundición GG-25, aceros templados F-114, bronces fosforosos, etc.</li>
+                <li><b>En directo (Telemetría):</b> Lectura instantánea a 60 fps de rpm, velocidad lineal ($m/s$) y estado de acoplamiento cinemático.</li>
+                <li><b>Botones de acción:</b> «Aislar» (ver la pieza en solitario), «Ocultar» y «Centrar» (<span class="kbd">F</span>).</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 4: CABEZAL FIJO Y MOTOR -->
+        <section class="mSection" id="sec-head">
+          <div class="mSecH"><span class="mSecNum">04</span><h3>Cabezal Fijo, Motor y Regulación de Velocidad</h3></div>
+          <p>El cabezal fijo es el conjunto motriz del torno. Aloja el motor eléctrico de 1,5 kW, el husillo hueco montado sobre rodamientos cónicos de precisión y la caja de velocidades mecánicas.</p>
+
+          <div class="mGrid2">
+            <div class="mCardBox">
+              <h4>🛑 Puesta en Marcha y Sentido de Giro</h4>
+              <ul>
+                <li><b>MARCHA / PARO (<span class="kbd">Espacio</span>):</b> Arranca o detiene la rotación del husillo.</li>
+                <li><b>Sentido de giro:</b> Directo (M3, antihorario hacia el operario, corte estándar) o Inverso (M4, horario).</li>
+                <li><b>Seta de emergencia (E-Stop):</b> Paro inmediato por corte de alimentación.</li>
+                <li><b>Protector del plato (<span class="kbd">G</span>):</b> Pantalla abatible con microinterruptor. El motor no arrancará si está levantada.</li>
+              </ul>
+            </div>
+
+            <div class="mCardBox">
+              <h4>⚙️ Las 6 Gamas Mecánicas (Teclas 1 a 6)</h4>
+              <p>Dos palancas combinadas: Palanca A (I, II, III) y Palanca B (baja/alta) proporcionan 6 velocidades a 50 Hz: <b>63, 137, 275, 423, 920 y 1840 rpm</b>.</p>
+              <div class="mCallout bad" style="margin:6px 0 0">
+                <b>⚠️ Enclavamiento de Seguridad</b>
+                Las gamas mecánicas SOLO pueden cambiarse con el husillo detenido. Cambiar de marcha con el motor en giro rompería los dientes en un torno real.
+              </div>
+            </div>
+          </div>
+
+          <div class="mCardBox" style="margin-top:10px">
+            <h4>⚡ Variador de Frecuencia Electrónico (VFD 5 a 100 Hz)</h4>
+            <p>Permite alcanzar <b>cualquier velocidad continua entre ~11 rpm y ~2040 rpm</b>. Puedes mover el control deslizante de Hz o teclear las rpm deseadas y pulsar «Aplicar». El sistema conmutará automáticamente la gama mecánica adecuada (solo en parado) y regulará la frecuencia.</p>
+            
+            <div class="mFormula">
+              <span><b>Fórmula de Velocidad de Corte:</b> \( n = \frac{1000 \cdot V_c}{\pi \cdot D} \)</span>
+              <span class="desc">n = rpm husillo · Vc = vel. de corte (m/min) · D = diámetro (mm)</span>
+            </div>
+
+            <p style="margin-top:6px">💡 <b>Botón «Recomendadas»:</b> Calcula y aplica al instante las revoluciones óptimas para el material montado (acero, aluminio, latón...) y el diámetro actual de la pieza.</p>
+          </div>
+
+          <div class="mCallout ok">
+            <b>⏱️ Escala de Tiempo (Cámara Lenta y Rápida)</b>
+            En la pestaña Cabezal puedes cambiar la velocidad de simulación: <b>Cámara lenta (×0.1)</b> para ver cómo engranan los piñones y el ciclo de rosca; <b>Tiempo real (×1)</b> para mecanizado normal; y <b>Rápido (×20)</b> para realizar pasadas largas sin esperar.
+          </div>
+        </section>
+
+        <!-- SECCIÓN 5: CAJA NORTON Y AVANCES -->
+        <section class="mSection" id="sec-norton">
+          <div class="mSecH"><span class="mSecNum">05</span><h3>Caja Norton, Lira de Engranajes y Cinemática de Avances</h3></div>
+          <p>La Caja Norton multiplica el giro del husillo para desplazar el carro automáticamente a una velocidad calibrada con precisión milimétrica respecto a cada vuelta del husillo.</p>
+
+          <div class="mGrid2">
+            <div class="mCardBox">
+              <h4>📊 Placa de la Caja Norton</h4>
+              <p>Matriz de 8 columnas (cono de engranajes Z24 a Z48) y 2 gamas (A y B). Al hacer clic en cualquier casilla de la tabla, se engrana esa relación cinemática exacta.</p>
+              <p>Cada casilla muestra el <b>paso de rosca en negrita</b> (ej. 1,5 mm) y debajo el <b>avance de cilindrado</b> correspondiente (ej. 0,102 mm/rev).</p>
+            </div>
+
+            <div class="mCardBox">
+              <h4>📐 Métrico (mm) vs Pulgadas (h/")</h4>
+              <p><b>Métrico:</b> Pasos normalizados directos en milímetros.</p>
+              <p><b>Pulgadas (TPI):</b> Conmuta la lira al juego con la rueda de <b>127 dientes</b> (conversión exacta $127/5 = 25,4$ mm/pulgada), mostrando hilos por pulgada (h/"). Las casillas no normalizadas aparecen desactivadas en gris.</p>
+            </div>
+          </div>
+
+          <div class="mCallout warn">
+            <b>⚔️ Diferencia Crítica: Barra de Cilindrar vs Tornillo Patrón</b>
+            <ul>
+              <li><b>Barra de Cilindrar (Avance Automático · <span class="kbd">A</span>):</b> Eje cilíndrico con chavetero corrido. Se conecta al delantal mediante sinfín y rueda para operaciones de cilindrado y refrentado. Si la herramienta sufre un sobreesfuerzo, su embrague patina por seguridad.</li>
+              <li><b>Tornillo Patrón (Tuerca Partida · <span class="kbd">T</span>):</b> Husillo roscado de perfil trapezoidal Acme. Al cerrar la tuerca partida de bronce, el carro se acopla rígidamente 1:1. <b>Se usa EXCLUSIVAMENTE para tallar roscas</b>.</li>
+              <li><b>Enclavamiento:</b> La barra de cilindrar y la tuerca partida NUNCA pueden estar embragadas al mismo tiempo; el delantal dispone de un seguro que las excluye recíprocamente.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 6: CARROS Y VOLANTES -->
+        <section class="mSection" id="sec-carr">
+          <div class="mSecH"><span class="mSecNum">06</span><h3>Carros y Volantes de Precisión (Manejo de Ejes)</h3></div>
+          <p>El tren de carros transforma el movimiento de rotación de las manivelas y barras en avances longitudinales y transversales de la cuchilla.</p>
+
+          <div class="mGrid2">
+            <div class="mCardBox">
+              <h4>🎛️ Los Tres Carros del Torno</h4>
+              <ul>
+                <li><b>Carro Longitudinal (Principal):</b> Desplazamiento sobre las guías de la bancada (eje X). Movimiento manual mediante piñón y cremallera, o automático por barra/tornillo.</li>
+                <li><b>Carro Transversal:</b> Desplazamiento perpendicular al eje de giro. Controla la profundidad de pasada y el refrentado de caras.</li>
+                <li><b>Carro Orientable (Charriot):</b> Montado sobre una base giratoria graduada de $-60^\circ$ a $+60^\circ$. Para avance fino y torneado de conos.</li>
+              </ul>
+            </div>
+
+            <div class="mCardBox">
+              <h4>🎯 Lectura del Nonio Transversal (¡Clave de Examen!)</h4>
+              <p>El tambor graduado del carro transversal está <b>calibrado al diámetro</b>:</p>
+              <div class="mFormula">
+                <span><b>1 división = 0,05 mm al diámetro</b></span>
+                <span class="desc">Avanza 0,025 mm en radio</span>
+              </div>
+              <p>Un cuarto de vuelta del volante transversal reduce el diámetro de la pieza en 1,25 mm (0,625 mm en el radio).</p>
+            </div>
+          </div>
+
+          <div class="mGrid2" style="margin-top:10px">
+            <div class="mCardBox">
+              <h4>🔪 Torreta Portaherramientas de 4 Posiciones</h4>
+              <p>Permite alternar entre herramientas rápidamente:</p>
+              <ul>
+                <li><b>1 · Cilindrar:</b> Cuchilla con plaquita rómbica de metal duro para desbaste y acabado cilíndrico.</li>
+                <li><b>2 · Roscar 60°:</b> Cuchilla con punta triangular a 60° para fileteado de roscas métricas ISO.</li>
+              </ul>
+            </div>
+
+            <div class="mCardBox">
+              <h4>🔺 Torneado de Conos con el Charriot</h4>
+              <p>Gira el carro orientable al ángulo deseado y avanza su volante manual:</p>
+              <div class="mFormula">
+                <span>\( \tan(\alpha) = \frac{D - d}{2 \cdot L} \)</span>
+                <span class="desc">D = Ø mayor · d = Ø menor · L = longitud cono</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 7: CONTRAPUNTO -->
+        <section class="mSection" id="sec-tail">
+          <div class="mSecH"><span class="mSecNum">07</span><h3>El Contrapunto (Apoyo y Mecanizado entre Puntos)</h3></div>
+          <p>El contrapunto es el elemento de soporte esencial para piezas largas. Cuando una barra sobresale más de 3 veces su diámetro ($L > 3D$), la fuerza del corte provocaría flexión, vibraciones y medidas cónicas indeseadas.</p>
+
+          <div class="mGrid2">
+            <div class="mCardBox">
+              <h4>🔩 Mandos y Bloqueos del Contrapunto</h4>
+              <ul>
+                <li><b>Bloqueo a la bancada:</b> Palanca excéntrica de fijación. Para deslizar el contrapunto debe estar desmarcada.</li>
+                <li><b>Deslizador de posición:</b> Desplaza el bloque a lo largo de las guías de la bancada (900 a 1690 mm).</li>
+                <li><b>Volante de la caña:</b> Extrae o recoge la caña con su escala milimétrica.</li>
+                <li><b>Bloqueo de la caña:</b> Inmoviliza la caña para que no retroceda con el esfuerzo axial del mecanizado.</li>
+                <li><b>Botón «Acercar punto a la pieza»:</b> Coloca automáticamente el punto giratorio en contacto perfecto con el centro de la barra montada.</li>
+              </ul>
+            </div>
+
+            <div class="mCardBox">
+              <h4>📐 Desplazamiento Lateral (Conos Largos)</h4>
+              <p>El cuerpo superior del contrapunto puede desplazarse transversalmente ($\pm 5$ mm). Al descentrar el punto de apoyo respecto al eje del cabezal, tornear con el avance automático genera un cono largo de poca pendiente entre puntos.</p>
+              <div class="mFormula">
+                <span>\( h = L_{\text{total}} \cdot \frac{D - d}{2 \cdot L_{\text{cono}}} \)</span>
+                <span class="desc">h = descentramiento transversal (mm)</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 8: TALLER PRÁCTICO -->
+        <section class="mSection" id="sec-mach">
+          <div class="mSecH"><span class="mSecNum">08</span><h3>Taller Práctico: Guías de Cilindrado y Roscado Paso a Paso</h3></div>
+          <p>Sigue estas guías para practicar las dos operaciones fundamentales de la tornería en el simulador.</p>
+
+          <div class="mCardBox">
+            <h4>🔵 Procedimiento 1: Cilindrado Exterior (Reducir Diámetro)</h4>
+            <ol class="mSteps">
+              <li><b>Preparar la barra:</b> En la pestaña <b>Pieza</b>, elige material (ej. Aluminio o Acero) y diámetro (ej. Ø50 mm). Pulsa «Montar barra nueva».</li>
+              <li><b>Fijar revoluciones óptimas:</b> En la pestaña <b>Cabezal</b>, pulsa el botón «Recomendadas» y luego «Aplicar». Baja el protector del plato.</li>
+              <li><b>Configurar avance:</b> En la pestaña <b>Avances</b>, elige una casilla en la tabla Norton (ej. 0,10 mm/rev) y pon el inversor hacia el cabezal (<span class="kbd">←</span>).</li>
+              <li><b>Aproximar la cuchilla:</b> En la pestaña <b>Carro</b>, usa el volante longitudinal (<span class="kbd">←</span> <span class="kbd">→</span>) para situar la herramienta frente a la barra.</li>
+              <li><b>Toma de referencia (Rozar):</b> Acerca el transversal (<span class="kbd">↑</span> <span class="kbd">↓</span>) hasta que la punta roce la pieza (verás el contacto en el DRO).</li>
+              <li><b>Dar profundidad de pasada:</b> Retira la herramienta fuera de la barra longitudinalmente hacia la derecha y avanza el transversal la profundidad que desees (ej. 1 mm de profundidad = 2 mm al diámetro).</li>
+              <li><b>Mecanizar:</b> Arranca el motor (<span class="kbd">Espacio</span>) y marca <b>«Avance automático (barra)»</b> (<span class="kbd">A</span>). Observa el desprendimiento de virutas y el diámetro bajando en el DRO. Antes de llegar a las garras, desmarca el avance automático.</li>
+            </ol>
+            <div class="mDemoRow">
+              <button class="btn pri sm" data-demo="turning">🚀 Ver Demo Cilindrado en 3D</button>
+            </div>
+          </div>
+
+          <div class="mCardBox" style="margin-top:12px">
+            <h4>🔴 Procedimiento 2: Roscado Métrico Triangular</h4>
+            <ol class="mSteps">
+              <li><b>Herramienta de roscar:</b> En <b>Carro</b>, selecciona la herramienta <span class="kbd">2 · Roscar 60°</span>.</li>
+              <li><b>Paso de rosca:</b> En <b>Avances</b>, selecciona el paso deseado en la tabla Norton (ej. paso 1,5 mm).</li>
+              <li><b>Velocidad reducida:</b> En <b>Cabezal</b>, reduce la velocidad a unas 80 rpm para tener control total de la carrera.</li>
+              <li><b>Primera pasada superficial:</b> Sitúa la cuchilla justo a la derecha del inicio de la barra y da una penetración de 0,15 mm con el transversal.</li>
+              <li><b>Engranar tuerca partida:</b> Cierra la <b>«Tuerca partida»</b> (<span class="kbd">T</span>) y arranca el motor (<span class="kbd">Espacio</span>). El carro avanzará exactamente 1,5 mm por vuelta tallando el filete helicoidal.</li>
+              <li><b>Retorno de ciclo:</b> Al final de la rosca, para el motor, retira el transversal hacia afuera, abre la tuerca partida (<span class="kbd">T</span>) y retrocede el carro longitudinal al inicio.</li>
+              <li><b>Pasadas sucesivas:</b> Vuelve a meter el transversal a la cota anterior más 0,15 mm de penetración, arranca y cierra la tuerca partida. La cuchilla caerá exactamente en el mismo surco. Repite hasta la profundidad teórica: \( h = 0,6134 \cdot P \).</li>
+            </ol>
+            <div class="mDemoRow">
+              <button class="btn pri sm" data-demo="threading">🚀 Ver Demo Roscado en 3D</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 9: SEGURIDAD Y ENCLAVAMIENTOS -->
+        <section class="mSection" id="sec-safety">
+          <div class="mSecH"><span class="mSecNum">09</span><h3>Seguridad de Taller y Enclavamientos del Simulador</h3></div>
+          <p>Un torno real es una máquina de gran potencia que no tolera errores. El simulador reproduce los enclavamientos de seguridad reales para educar en la prevención de accidentes y averías:</p>
+
+          <div class="mGrid2">
+            <div class="mCallout bad">
+              <b>🛡️ Protector del Plato con Microinterruptor</b>
+              El motor eléctrico tiene prohibido arrancar si la pantalla transparente está levantada. Si se levanta mientras el husillo gira, el circuito de seguridad se abre y detiene inmediatamente el giro.
+            </div>
+
+            <div class="mCallout warn">
+              <b>⛔ Bloqueo de Cajas de Velocidad en Marcha</b>
+              Intentar mover las palancas de gama mecánica (A o B) con el husillo girando provocará un aviso de bloqueo de enclavamiento. En un torno real, hacerlo rompería los piñones rectos.
+            </div>
+
+            <div class="mCallout bad">
+              <b>🔒 Exclusión Mutua Barra vs Tuerca Partida</b>
+              Ambos embragues se bloquean mecánicamente entre sí en el delantal. Si uno está acoplado, el otro queda inhabilitado.
+            </div>
+
+            <div class="mCallout">
+              <b>🛑 Prevención de Colisión en Parado</b>
+              El simulador impide clavar la herramienta contra la barra con el husillo detenido, lo que en el taller desportillaría la plaquita de metal duro o doblaría el vástago.
+            </div>
+          </div>
+        </section>
+
+        <!-- SECCIÓN 10: ATAJOS DE TECLADO -->
+        <section class="mSection" id="sec-keys">
+          <div class="mSecH"><span class="mSecNum">10</span><h3>Tabla Completa de Atajos de Teclado</h3></div>
+          <p>Controla todas las funciones del torno con el teclado para trabajar como un operario experto:</p>
+
+          <table class="mTable">
+            <thead>
+              <tr><th>Tecla</th><th>Función</th><th>Categoría</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><span class="kbd">Espacio</span></td><td>Marcha / Paro del motor principal</td><td>Motor</td></tr>
+              <tr><td><span class="kbd">1</span> … <span class="kbd">6</span></td><td>Seleccionar gamas mecánicas de velocidad del cabezal</td><td>Velocidad</td></tr>
+              <tr><td><span class="kbd">A</span></td><td>Embragar / Desembragar avance automático (barra de cilindrar)</td><td>Avances</td></tr>
+              <tr><td><span class="kbd">T</span></td><td>Cerrar / Abrir tuerca partida (roscado con tornillo patrón)</td><td>Roscado</td></tr>
+              <tr><td><span class="kbd">←</span> <span class="kbd">→</span></td><td>Mover carro longitudinal (eje X) · Mantén Mayús para x10</td><td>Carros</td></tr>
+              <tr><td><span class="kbd">↑</span> <span class="kbd">↓</span></td><td>Mover carro transversal (diámetro) · Mantén Mayús para x10</td><td>Carros</td></tr>
+              <tr><td><span class="kbd">[</span> <span class="kbd">]</span></td><td>Mover volante del carro orientable (charriot)</td><td>Carros</td></tr>
+              <tr><td><span class="kbd">G</span></td><td>Subir / Bajar protector móvil del plato de garras</td><td>Seguridad</td></tr>
+              <tr><td><span class="kbd">E</span></td><td>Alternar vista de despiece explosionado</td><td>Vistas 3D</td></tr>
+              <tr><td><span class="kbd">X</span></td><td>Alternar vista transparente / rayos X</td><td>Vistas 3D</td></tr>
+              <tr><td><span class="kbd">W</span></td><td>Alternar vista de malla de alambre</td><td>Vistas 3D</td></tr>
+              <tr><td><span class="kbd">C</span></td><td>Activar / Desactivar plano de corte de sección</td><td>Vistas 3D</td></tr>
+              <tr><td><span class="kbd">L</span></td><td>Mostrar / Ocultar etiquetas 3D con directrices</td><td>Vistas 3D</td></tr>
+              <tr><td><span class="kbd">F</span></td><td>Encuadrar selección con la cámara (vuelo suave)</td><td>Cámara</td></tr>
+              <tr><td><span class="kbd">Esc</span></td><td>Deseleccionar pieza / Cerrar manual y paneles abiertos</td><td>Interfaz</td></tr>
+              <tr><td><span class="kbd">H</span> o <span class="kbd">?</span></td><td>Abrir / Cerrar este Manual de Instrucciones</td><td>Ayuda</td></tr>
+              <tr><td><span class="kbd">º</span> o <span class="kbd">`</span></td><td>Mostrar / Ocultar overlay de rendimiento y FPS</td><td>Sistema</td></tr>
+            </tbody>
+          </table>
+        </section>
       </div>
-      <h3>Cilindrar (reducir el diámetro)</h3>
-      <ol>
-        <li>En <b>Pieza</b> elige material; la ficha de la pieza te sugiere las rpm.</li>
-        <li>En <b>Cabezal</b> escribe las rpm que quieras (o pulsa «Recomendadas»): el variador de frecuencia da cualquier velocidad entre ≈ 11 y 2040 rpm y, si hace falta, cambia de gama mecánica (con el husillo parado). Arranca el motor.</li>
-        <li>En <b>Avances</b> elige una casilla de la placa Norton (el avance en mm/rev aparece bajo el paso) y deja el inversor hacia el cabezal.</li>
-        <li>En <b>Carro</b> acerca la herramienta con el volante y da profundidad con el dial del carro transversal (cada división = 0,05 mm en el diámetro).</li>
-        <li>Embraga el <b>avance automático</b>: el carro avanza, salta la viruta y el Ø baja. Se detiene solo antes de llegar a las garras.</li>
-      </ol>
-      <h3>Roscar</h3>
-      <ol>
-        <li>Pulsa <b>Demo roscado</b> o: velocidad baja, casilla Norton con el paso deseado (mm o hilos/pulgada) y torreta en la herramienta de 60°.</li>
-        <li>Profundiza 0,1–0,2 mm con el transversal, arranca y <b>cierra la tuerca partida</b>: el carro queda unido al tornillo patrón y avanza un paso por vuelta.</li>
-        <li>Al final, retira el transversal, abre la tuerca, vuelve al inicio y repite hasta la profundidad de la rosca (0,61·P).</li>
-      </ol>
-      <p class="hint">Enclavamientos: la barra de cilindrar y la tuerca partida no pueden estar embragadas a la vez, las cajas de engranajes se cambian con el husillo parado y el protector del plato debe estar bajado para arrancar.</p>
     </div>
   </div>
 
@@ -3840,14 +4228,59 @@ const UI = {
     $('#explode').oninput = e => { VIEW.explodeTarget = null; VIEW.explode = +e.target.value / 100; applyExplode(VIEW.explode); this.syncExplode(); };
     $('#btnLabels').onclick = () => { showLabels(!VIEW.labels); $('#btnLabels').classList.toggle('on', VIEW.labels); };
     $('#camSel').onchange = e => { if (e.target.value) goPreset(e.target.value); e.target.value = ''; };
-    $('#btnHelp').onclick = () => ($('#help').hidden = false);
+    const openManual = () => ($('#help').hidden = false);
+    if ($('#btnManual')) $('#btnManual').onclick = openManual;
+    if ($('#btnHelp')) $('#btnHelp').onclick = openManual;
     $$('[data-close]').forEach(b => (b.onclick = () => { const t = b.dataset.close; if (t === 'help') $('#help').hidden = true; else $('#' + t).classList.remove('open'); }));
     $('#help').onclick = e => { if (e.target.id === 'help') $('#help').hidden = true; };
+    this.initManual();
     $('#btnTree').onclick = () => { $('#tree').classList.toggle('open'); $('#info').classList.remove('open'); };
     $('#btnInfo').onclick = () => { $('#info').classList.toggle('open'); $('#tree').classList.remove('open'); };
     $('#secAxis').onclick = e => { const b = e.target.closest('[data-axis]'); if (!b) return; VIEW.section.axis = b.dataset.axis; VIEW.section.pos = SEC_DEFAULT[b.dataset.axis]; updateSection(); this.syncSection(); VIEW.secHelperT = 1.6; };
     $('#secPos').oninput = e => { VIEW.section.pos = +e.target.value / 1000; updateSection(); this.syncSection(); VIEW.secHelperT = 1.6; };
     $('#secFlip').onclick = () => { VIEW.section.flip = !VIEW.section.flip; updateSection(); this.syncSection(); VIEW.secHelperT = 1.6; };
+  },
+  initManual() {
+    const tabs = $$('#mTabs .mTabBtn');
+    const sections = $$('#mBody .mSection');
+    const searchInput = $('#mSearch');
+    const setSection = secId => {
+      tabs.forEach(t => t.classList.toggle('active', t.dataset.sec === secId));
+      if (secId === 'all') {
+        sections.forEach(s => (s.style.display = ''));
+      } else {
+        sections.forEach(s => { s.style.display = s.id === secId ? '' : 'none'; });
+        const targetSec = $('#' + secId);
+        if (targetSec) targetSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+    tabs.forEach(btn => {
+      btn.onclick = () => {
+        if (searchInput) searchInput.value = '';
+        setSection(btn.dataset.sec);
+      };
+    });
+    if (searchInput) {
+      searchInput.oninput = e => {
+        const q = e.target.value.trim().toLowerCase();
+        if (!q) {
+          const activeTab = $('#mTabs .mTabBtn.active');
+          setSection(activeTab ? activeTab.dataset.sec : 'all');
+          return;
+        }
+        tabs.forEach(t => t.classList.toggle('active', t.dataset.sec === 'all'));
+        sections.forEach(s => {
+          const txt = s.textContent.toLowerCase();
+          s.style.display = txt.includes(q) ? '' : 'none';
+        });
+      };
+    }
+    $$('[data-demo]', $('#help')).forEach(btn => {
+      btn.onclick = () => {
+        $('#help').hidden = true;
+        if (DEMO && DEMO[btn.dataset.demo]) DEMO[btn.dataset.demo]();
+      };
+    });
   },
   /* ---------- ratón / táctil sobre la vista 3D ---------- */
   bindCanvas() {
