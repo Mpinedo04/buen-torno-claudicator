@@ -432,16 +432,16 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
         <!-- SECCIÓN 1: INTRODUCCIÓN Y ANATOMÍA -->
         <section class="mSection" id="sec-intro">
           <div class="mSecH"><span class="mSecNum">01</span><h3>Introducción y Anatomía del Torno Paralelo</h3></div>
-          <p>Bienvenido al simulador interactivo de <b>Torno Paralelo de banco 300 × 1000</b>. Esta aplicación está concebida como una herramienta didáctica integral para asimilar la cinemática, los enclavamientos mecánicos y los procedimientos reales de mecanizado por arranque de viruta.</p>
+          <p>Bienvenido al simulador interactivo de un torno paralelo de banco <b>300 × 1000</b> (volteo máximo de 300 mm y distancia entre puntos de 1000 mm). Sirve para estudiar la disposición de sus componentes, los movimientos y algunas operaciones de mecanizado.</p>
           
           <div class="mGrid2">
             <div class="mCardBox">
               <h4>🎯 ¿Qué es un torno paralelo?</h4>
-              <p>Es la máquina-herramienta fundamental del mecanizado. Hace girar la pieza fijada al husillo principal mientras una herramienta mono-cortante avanza de forma longitudinal o transversal, arrancando viruta para producir formas de revolución: cilindros exteriores e interiores, conos, caras planas (refrentado) y roscas métricas o en pulgadas.</p>
+              <p>Es una máquina-herramienta fundamental del mecanizado. Hace girar la pieza fijada al husillo principal mientras una herramienta monocortante avanza de forma longitudinal o transversal y arranca viruta para producir cilindros exteriores e interiores, conos, caras planas (refrentado) y roscas métricas o en pulgadas.</p>
             </div>
             <div class="mCardBox">
               <h4>⚙️ Gemelo digital procedural</h4>
-              <p>Cada componente 3D (engranajes con sus dientes reales <span class="kbd">Z</span>, husillos, tuercas partidas y diales) está programado con cinemática real. Las velocidades de corte, avances y volúmenes arrancados concuerdan con la física del taller industrial.</p>
+              <p>El modelo representa componentes y relaciones cinemáticas de forma didáctica. Sus valores y resultados pertenecen a una simulación: no sustituyen los datos, tolerancias ni procedimientos de una máquina real.</p>
             </div>
           </div>
 
@@ -451,7 +451,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
               <li><b>Barra Superior:</b> Modos visuales (Sólido, Rayos X, Alambre, Sección de corte), Despiece explosionado, Etiquetas 3D, Selector de cámaras y este Manual de Instrucciones.</li>
               <li><b>Panel Izquierdo («Piezas»):</b> Árbol completo con más de 70 piezas organizadas por subsistemas, buscador bilingüe e interruptores de visibilidad (ojo).</li>
               <li><b>Panel Derecho («Ficha»):</b> Especificación técnica del componente activo, material industrial, función y telemetría cinemática en vivo.</li>
-              <li><b>Pantalla Digital DRO (abajo):</b> Visualizador de cotas en tiempo real: <span class="kbd">Husillo rpm</span>, <span class="kbd">Vc (m/min)</span>, <span class="kbd">Avance f (mm/rev)</span>, <span class="kbd">Z punta (mm)</span> y <span class="kbd">X / Ø (mm)</span>.</li>
+              <li><b>Pantalla digital DRO (abajo):</b> Muestra rpm, velocidad de corte (m/min), avance (mm/rev), posición longitudinal Z y posición transversal X/diámetro, según la convención usada en el simulador.</li>
               <li><b>Dock Inferior de Mandos:</b> 5 pestañas interactivas: Cabezal, Avances (Norton), Carro (volantes), Contrapunto y Pieza en bruto.</li>
             </ul>
           </div>
@@ -516,7 +516,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
                 <li><b>Nombre bilingüe y categoría:</b> Conoce la terminología industrial normalizada.</li>
                 <li><b>Función mecánica:</b> Explicación didáctica de su utilidad real en máquinas-herramienta.</li>
                 <li><b>Material:</b> Fundición GG-25, aceros templados F-114, bronces fosforosos, etc.</li>
-                <li><b>En directo (Telemetría):</b> Lectura instantánea a 60 fps de rpm, velocidad lineal ($m/s$) y estado de acoplamiento cinemático.</li>
+                <li><b>En directo (telemetría):</b> Lectura de rpm, velocidad de corte (m/min) y estado de acoplamiento cinemático.</li>
                 <li><b>Botones de acción:</b> «Aislar» (ver la pieza en solitario), «Ocultar» y «Centrar» (<span class="kbd">F</span>).</li>
               </ul>
             </div>
@@ -554,11 +554,11 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
             <p>Permite alcanzar <b>cualquier velocidad continua entre ~11 rpm y ~2040 rpm</b>. Puedes mover el control deslizante de Hz o teclear las rpm deseadas y pulsar «Aplicar». El sistema conmutará automáticamente la gama mecánica adecuada (solo en parado) y regulará la frecuencia.</p>
             
             <div class="mFormula">
-              <span><b>Fórmula de Velocidad de Corte:</b> \( n = \frac{1000 \cdot V_c}{\pi \cdot D} \)</span>
+              <span><b>Velocidad de giro:</b> n (rpm) = 1000 × Vc (m/min) ÷ [π × D (mm)]</span>
               <span class="desc">n = rpm husillo · Vc = vel. de corte (m/min) · D = diámetro (mm)</span>
             </div>
 
-            <p style="margin-top:6px">💡 <b>Botón «Recomendadas»:</b> Calcula y aplica al instante las revoluciones óptimas para el material montado (acero, aluminio, latón...) y el diámetro actual de la pieza.</p>
+            <p style="margin-top:6px">💡 <b>Botón «Recomendadas»:</b> Calcula las revoluciones sugeridas para el material y diámetro actuales. Revisa el valor y pulsa «Aplicar» para usarlo.</p>
           </div>
 
           <div class="mCallout ok">
@@ -582,7 +582,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
             <div class="mCardBox">
               <h4>📐 Métrico (mm) vs Pulgadas (h/")</h4>
               <p><b>Métrico:</b> Pasos normalizados directos en milímetros.</p>
-              <p><b>Pulgadas (TPI):</b> Conmuta la lira al juego con la rueda de <b>127 dientes</b> (conversión exacta $127/5 = 25,4$ mm/pulgada), mostrando hilos por pulgada (h/"). Las casillas no normalizadas aparecen desactivadas en gris.</p>
+              <p><b>Pulgadas (TPI):</b> Muestra pasos como hilos por pulgada. La rueda de 127 dientes permite la conversión entre el sistema métrico y el imperial (1 pulgada = 25,4 mm). Las casillas no disponibles aparecen desactivadas.</p>
             </div>
           </div>
 
@@ -590,7 +590,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
             <b>⚔️ Diferencia Crítica: Barra de Cilindrar vs Tornillo Patrón</b>
             <ul>
               <li><b>Barra de Cilindrar (Avance Automático · <span class="kbd">A</span>):</b> Eje cilíndrico con chavetero corrido. Se conecta al delantal mediante sinfín y rueda para operaciones de cilindrado y refrentado. Si la herramienta sufre un sobreesfuerzo, su embrague patina por seguridad.</li>
-              <li><b>Tornillo Patrón (Tuerca Partida · <span class="kbd">T</span>):</b> Husillo roscado de perfil trapezoidal Acme. Al cerrar la tuerca partida de bronce, el carro se acopla rígidamente 1:1. <b>Se usa EXCLUSIVAMENTE para tallar roscas</b>.</li>
+              <li><b>Tornillo patrón (tuerca partida · <span class="kbd">T</span>):</b> Husillo roscado que sincroniza el movimiento del carro con el husillo principal. Se usa para tallar roscas con el paso seleccionado; no lo confundas con el avance automático de cilindrado.</li>
               <li><b>Enclavamiento:</b> La barra de cilindrar y la tuerca partida NUNCA pueden estar embragadas al mismo tiempo; el delantal dispone de un seguro que las excluye recíprocamente.</li>
             </ul>
           </div>
@@ -605,9 +605,9 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
             <div class="mCardBox">
               <h4>🎛️ Los Tres Carros del Torno</h4>
               <ul>
-                <li><b>Carro Longitudinal (Principal):</b> Desplazamiento sobre las guías de la bancada (eje X). Movimiento manual mediante piñón y cremallera, o automático por barra/tornillo.</li>
-                <li><b>Carro Transversal:</b> Desplazamiento perpendicular al eje de giro. Controla la profundidad de pasada y el refrentado de caras.</li>
-                <li><b>Carro Orientable (Charriot):</b> Montado sobre una base giratoria graduada de $-60^\circ$ a $+60^\circ$. Para avance fino y torneado de conos.</li>
+                <li><b>Carro longitudinal (principal):</b> Se desplaza a lo largo de la bancada, paralelo al eje del husillo (eje Z en el DRO). Movimiento manual mediante piñón y cremallera, o automático por barra/tornillo.</li>
+                <li><b>Carro transversal:</b> Se desplaza perpendicular al eje del husillo (eje X en el DRO). Controla la profundidad de pasada y el refrentado.</li>
+                <li><b>Carro orientable (charriot):</b> Montado sobre una base giratoria graduada de −60° a +60°. Para avance fino y torneado de conos.</li>
               </ul>
             </div>
 
@@ -624,8 +624,8 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
 
           <div class="mGrid2" style="margin-top:10px">
             <div class="mCardBox">
-              <h4>🔪 Torreta Portaherramientas de 4 Posiciones</h4>
-              <p>Permite alternar entre herramientas rápidamente:</p>
+              <h4>🔪 Torreta portaherramientas</h4>
+              <p>El manual describe estas dos herramientas:</p>
               <ul>
                 <li><b>1 · Cilindrar:</b> Cuchilla con plaquita rómbica de metal duro para desbaste y acabado cilíndrico.</li>
                 <li><b>2 · Roscar 60°:</b> Cuchilla con punta triangular a 60° para fileteado de roscas métricas ISO.</li>
@@ -636,7 +636,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
               <h4>🔺 Torneado de Conos con el Charriot</h4>
               <p>Gira el carro orientable al ángulo deseado y avanza su volante manual:</p>
               <div class="mFormula">
-                <span>\( \tan(\alpha) = \frac{D - d}{2 \cdot L} \)</span>
+                <span>tan(α) = (D − d) ÷ (2 × L)</span>
                 <span class="desc">D = Ø mayor · d = Ø menor · L = longitud cono</span>
               </div>
             </div>
@@ -646,7 +646,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
         <!-- SECCIÓN 7: CONTRAPUNTO -->
         <section class="mSection" id="sec-tail">
           <div class="mSecH"><span class="mSecNum">07</span><h3>El Contrapunto (Apoyo y Mecanizado entre Puntos)</h3></div>
-          <p>El contrapunto es el elemento de soporte esencial para piezas largas. Cuando una barra sobresale más de 3 veces su diámetro ($L > 3D$), la fuerza del corte provocaría flexión, vibraciones y medidas cónicas indeseadas.</p>
+          <p>El contrapunto ayuda a sostener piezas largas. Si la longitud sin apoyo supera aproximadamente tres veces el diámetro (L > 3D), la pieza puede flexionarse o vibrar y producir un cilindrado cónico.</p>
 
           <div class="mGrid2">
             <div class="mCardBox">
@@ -662,9 +662,9 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
 
             <div class="mCardBox">
               <h4>📐 Desplazamiento Lateral (Conos Largos)</h4>
-              <p>El cuerpo superior del contrapunto puede desplazarse transversalmente ($\pm 5$ mm). Al descentrar el punto de apoyo respecto al eje del cabezal, tornear con el avance automático genera un cono largo de poca pendiente entre puntos.</p>
+              <p>El cuerpo superior del contrapunto puede desplazarse transversalmente hasta ±5 mm. Al descentrar el punto de apoyo respecto al eje del cabezal, se puede tornear un cono largo de poca pendiente entre puntos.</p>
               <div class="mFormula">
-                <span>\( h = L_{\text{total}} \cdot \frac{D - d}{2 \cdot L_{\text{cono}}} \)</span>
+                <span>h = Ltotal × (D − d) ÷ (2 × Lcono)</span>
                 <span class="desc">h = descentramiento transversal (mm)</span>
               </div>
             </div>
@@ -680,7 +680,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
             <h4>🔵 Procedimiento 1: Cilindrado Exterior (Reducir Diámetro)</h4>
             <ol class="mSteps">
               <li><b>Preparar la barra:</b> En la pestaña <b>Pieza</b>, elige material (ej. Aluminio o Acero) y diámetro (ej. Ø50 mm). Pulsa «Montar barra nueva».</li>
-              <li><b>Fijar revoluciones óptimas:</b> En la pestaña <b>Cabezal</b>, pulsa el botón «Recomendadas» y luego «Aplicar». Baja el protector del plato.</li>
+              <li><b>Fijar revoluciones:</b> En la pestaña <b>Cabezal</b>, pulsa «Recomendadas», revisa el valor y pulsa «Aplicar». Confirma que hay espacio libre para la herramienta y baja el protector del plato.</li>
               <li><b>Configurar avance:</b> En la pestaña <b>Avances</b>, elige una casilla en la tabla Norton (ej. 0,10 mm/rev) y pon el inversor hacia el cabezal (<span class="kbd">←</span>).</li>
               <li><b>Aproximar la cuchilla:</b> En la pestaña <b>Carro</b>, usa el volante longitudinal (<span class="kbd">←</span> <span class="kbd">→</span>) para situar la herramienta frente a la barra.</li>
               <li><b>Toma de referencia (Rozar):</b> Acerca el transversal (<span class="kbd">↑</span> <span class="kbd">↓</span>) hasta que la punta roce la pieza (verás el contacto en el DRO).</li>
@@ -701,7 +701,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
               <li><b>Primera pasada superficial:</b> Sitúa la cuchilla justo a la derecha del inicio de la barra y da una penetración de 0,15 mm con el transversal.</li>
               <li><b>Engranar tuerca partida:</b> Cierra la <b>«Tuerca partida»</b> (<span class="kbd">T</span>) y arranca el motor (<span class="kbd">Espacio</span>). El carro avanzará exactamente 1,5 mm por vuelta tallando el filete helicoidal.</li>
               <li><b>Retorno de ciclo:</b> Al final de la rosca, para el motor, retira el transversal hacia afuera, abre la tuerca partida (<span class="kbd">T</span>) y retrocede el carro longitudinal al inicio.</li>
-              <li><b>Pasadas sucesivas:</b> Vuelve a meter el transversal a la cota anterior más 0,15 mm de penetración, arranca y cierra la tuerca partida. La cuchilla caerá exactamente en el mismo surco. Repite hasta la profundidad teórica: \( h = 0,6134 \cdot P \).</li>
+              <li><b>Pasadas sucesivas:</b> Vuelve a meter el transversal a la cota anterior más la penetración prevista, arranca y acopla la tuerca partida en el mismo punto de referencia. Repite hasta acercarte a la profundidad teórica de una rosca métrica ISO: h ≈ 0,6134 × P. Comprueba el ajuste con el método de medición adecuado.</li>
             </ol>
             <div class="mDemoRow">
               <button class="btn pri sm" data-demo="threading">🚀 Ver Demo Roscado en 3D</button>
@@ -712,7 +712,14 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
         <!-- SECCIÓN 9: SEGURIDAD Y ENCLAVAMIENTOS -->
         <section class="mSection" id="sec-safety">
           <div class="mSecH"><span class="mSecNum">09</span><h3>Seguridad de Taller y Enclavamientos del Simulador</h3></div>
-          <p>Un torno real es una máquina de gran potencia que no tolera errores. El simulador reproduce los enclavamientos de seguridad reales para educar en la prevención de accidentes y averías:</p>
+          <p>Esta sección describe únicamente las protecciones representadas en el simulador. <b>El simulador no certifica condiciones seguras ni sustituye la formación, la evaluación de riesgos o las instrucciones del fabricante para operar un torno real.</b></p>
+
+          <div class="mCallout warn">
+            <b>⚠️ Si trabajas con una máquina real</b>
+            Sigue la formación y las normas de tu taller. Antes de arrancar, asegura la pieza y la herramienta, retira la llave del plato y comprueba que las protecciones estén colocadas. Mantén manos y ropa alejadas de las partes giratorias; no uses guantes cerca del husillo. Detén la máquina antes de medir, ajustar o retirar virutas.
+          </div>
+
+          <p>El simulador también representa algunos enclavamientos para ayudar a reconocerlos:</p>
 
           <div class="mGrid2">
             <div class="mCallout bad">
@@ -731,8 +738,8 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
             </div>
 
             <div class="mCallout">
-              <b>🛑 Prevención de Colisión en Parado</b>
-              El simulador impide clavar la herramienta contra la barra con el husillo detenido, lo que en el taller desportillaría la plaquita de metal duro o doblaría el vástago.
+              <b>🛑 Interacciones de mecanizado</b>
+              Usa el simulador para observar cómo se relacionan el giro, la posición de la herramienta y el avance. Los avisos o límites de la simulación no deben tomarse como protecciones de una máquina real.
             </div>
           </div>
         </section>
@@ -751,7 +758,7 @@ table.chart td.na{opacity:.32;cursor:not-allowed}
               <tr><td><span class="kbd">1</span> … <span class="kbd">6</span></td><td>Seleccionar gamas mecánicas de velocidad del cabezal</td><td>Velocidad</td></tr>
               <tr><td><span class="kbd">A</span></td><td>Embragar / Desembragar avance automático (barra de cilindrar)</td><td>Avances</td></tr>
               <tr><td><span class="kbd">T</span></td><td>Cerrar / Abrir tuerca partida (roscado con tornillo patrón)</td><td>Roscado</td></tr>
-              <tr><td><span class="kbd">←</span> <span class="kbd">→</span></td><td>Mover carro longitudinal (eje X) · Mantén Mayús para x10</td><td>Carros</td></tr>
+              <tr><td><span class="kbd">←</span> <span class="kbd">→</span></td><td>Mover carro longitudinal (eje Z) · Mantén Mayús para x10</td><td>Carros</td></tr>
               <tr><td><span class="kbd">↑</span> <span class="kbd">↓</span></td><td>Mover carro transversal (diámetro) · Mantén Mayús para x10</td><td>Carros</td></tr>
               <tr><td><span class="kbd">[</span> <span class="kbd">]</span></td><td>Mover volante del carro orientable (charriot)</td><td>Carros</td></tr>
               <tr><td><span class="kbd">G</span></td><td>Subir / Bajar protector móvil del plato de garras</td><td>Seguridad</td></tr>
